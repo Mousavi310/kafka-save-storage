@@ -1,0 +1,13 @@
+{
+    "namespace": "App",
+    "type": "record",
+    "doc": "A simple order record that will be used in our e-commerce application",
+    "name": "OrderAvroModel",
+    "fields": [
+        {"name": "Id", "type": "string", "doc": ""},
+        {"name": "Status", "type": "int", "doc": ""},
+        {"name": "CreationTime", "type": "long", "doc": ""},
+        {"name": "ProductId", "type": "int", "doc": ""},
+        {"name": "CustomerId", "type": "int", "doc": ""}
+    ]
+}
