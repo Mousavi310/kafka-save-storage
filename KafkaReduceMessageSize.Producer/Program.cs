@@ -15,12 +15,17 @@ namespace KafkaReduceMessageSize.Producer
         {
             var broker = "localhost:9092";
             var schemaRegistryUrl = "http://localhost:8081/";
-            //await Produce_Json(broker, "maintopic2");
-            //await Produce_Json(broker, "maintopic1", delayForEachProduce:100);
-            await Produce_Json(broker, "maintopic20", linger:2000, compressionType: CompressionType.Gzip);
-            //await Produce_Json(broker, "maintopic15", linger:2000, compressionType: CompressionType.Snappy);
-            await Produce_Avro(broker, schemaRegistryUrl, "maintopic21", linger:2000, compressionType: CompressionType.Gzip);
-            //await Produce_Avro(broker, schemaRegistryUrl, "maintopic16", linger:2000, compressionType: CompressionType.Snappy);
+
+
+            await Produce_Json(broker, "maintopic40", linger:100);
+            //await Produce_Json(broker, "maintopic30", linger:1, delayForEachProduce:100);
+            //await Produce_Json(broker, "maintopic20", linger:100, compressionType: CompressionType.Gzip);
+            //await Produce_Json(broker, "maintopic15", linger:100, compressionType: CompressionType.Snappy);
+            
+            await Produce_Avro(broker, schemaRegistryUrl, "maintopic41", linger:100);
+            //await Produce_Avro(broker, schemaRegistryUrl, "maintopic31", linger:1, delayForEachProduce:100);
+            //await Produce_Avro(broker, schemaRegistryUrl, "maintopic21", linger:100, compressionType: CompressionType.Gzip);
+            //await Produce_Avro(broker, schemaRegistryUrl, "maintopic16", linger:100, compressionType: CompressionType.Snappy);
             
             
             Console.WriteLine("Hello World!");
