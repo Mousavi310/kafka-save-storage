@@ -11,18 +11,34 @@ namespace KafkaReduceMessageSize.Producer
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
+            var broker = "localhost:9092";
+            var schemaRegistryUrl = "http://localhost:8081/";
+            //await Produce_Json(broker, "maintopic2");
+            //await Produce_Json(broker, "maintopic1", delayForEachProduce:100);
+            await Produce_Json(broker, "maintopic20", linger:2000, compressionType: CompressionType.Gzip);
+            //await Produce_Json(broker, "maintopic15", linger:2000, compressionType: CompressionType.Snappy);
+            await Produce_Avro(broker, schemaRegistryUrl, "maintopic21", linger:2000, compressionType: CompressionType.Gzip);
+            //await Produce_Avro(broker, schemaRegistryUrl, "maintopic16", linger:2000, compressionType: CompressionType.Snappy);
+            
+            
             Console.WriteLine("Hello World!");
         }
 
-        public static async Task Produce_Json(string broker, double? linger, int delayForEachProduce)
+        public static async Task Produce_Json(string broker, 
+            string topic,
+            double? linger = null, 
+            int? delayForEachProduce = null, 
+            CompressionType? compressionType = null)
         {
             using(var producer = new ProducerBuilder<Null, string>(
                 new ProducerConfig
                 {
-                    BootstrapServers = "localhost:9092",
-                    LingerMs = 0,
+                    BootstrapServers = broker,
+                    LingerMs = linger,
+                    CompressionType = compressionType,
+                    CompressionLevel = GetCompressionLevel(compressionType)
                 }
             ).Build())
             {
@@ -31,89 +47,67 @@ namespace KafkaReduceMessageSize.Producer
                     .Select(d => JsonConvert.SerializeObject(d));
                 foreach(var item in records)
                 {
-                    await Task.Delay(100);
+                    if(delayForEachProduce.HasValue)
+                        await Task.Delay(delayForEachProduce.Value);
                     producer
-                        .Produce("sample-json-4", new Message<Null, string>{Value = item});
+                        .Produce(topic, new Message<Null, string>{Value = item});
                 }
+
+                producer.Flush();
             }
         }
 
-        public static async Task Produce_Single_Json_NoCompression()
-        {
-            using(var producer = new ProducerBuilder<Null, string>(
-                new ProducerConfig
-                {
-                    BootstrapServers = "localhost:9092",
-                    LingerMs = 0,
-                }
-            ).Build())
-            {
-                var records = OrderRepository
-                    .CreateJsonOrders()
-                    .Select(d => JsonConvert.SerializeObject(d));
-                foreach(var item in records)
-                {
-                    await Task.Delay(100);
-                    producer
-                        .Produce("sample-json-4", new Message<Null, string>{Value = item});
-                }
-            }
-        }
-
-        public static void Produce_Batch_Json()
-        {
-            using(var producer = new ProducerBuilder<Null, string>(
-                new ProducerConfig{
-                    BootstrapServers = "localhost:9092",
-                }
-            ).Build())
-            {
-                var records = OrderRepository
-                    .CreateJsonOrders()
-                    .Select(d => JsonConvert.SerializeObject(d));
-                foreach(var item in records)
-                {
-                    producer
-                        .Produce("sample-json-batch-1", new Message<Null, string>{Value = item});
-                }
-
-                producer.Flush(TimeSpan.FromSeconds(30));
-            }
-        }
-
-        public static void Produce_Avro_Batch_Compression_Async()
+        public static async Task Produce_Avro(string broker, 
+            string schemaRegistryUrl,
+            string topic,
+            double? linger = null, 
+            int? delayForEachProduce = null, 
+            CompressionType? compressionType = null,
+            int compressionLevel = 1)
         {
             using(var schemaRegistry = new CachedSchemaRegistryClient(
-                new SchemaRegistryConfig {SchemaRegistryUrl = "http://localhost:8081/"}
+                new SchemaRegistryConfig {SchemaRegistryUrl = schemaRegistryUrl}
             ))
             {
-                using(var producer = new ProducerBuilder<Null, OrderAvroModel>(
-                    new ProducerConfig{
-                        BootstrapServers = "localhost:9092",
-                        //CompressionType = CompressionType.Gzip,
-                        //CompressionLevel = 9
-                    }
-                ).SetValueSerializer(new SyncOverAsyncSerializer<OrderAvroModel>(new AvroSerializer<OrderAvroModel>(schemaRegistry)))
+                var config = new ProducerConfig{
+                        BootstrapServers = broker,
+                        CompressionType = compressionType,
+                        LingerMs = linger,
+                        CompressionLevel = GetCompressionLevel(compressionType)
+                    };
+                using(var producer = new ProducerBuilder<Null, OrderAvroModel>(config)
+                .SetValueSerializer(new SyncOverAsyncSerializer<OrderAvroModel>(new AvroSerializer<OrderAvroModel>(schemaRegistry)))
                  .Build())
                 {
                      var records = OrderRepository
-                    .CreateJsonOrders()
-                    .Select(d => new OrderAvroModel{
-                        CreationTime = d.CreationTime,
-                        CustomerId  = d.CustomerId,
-                        Id = d.Id,
-                        ProductId = d.ProductId,
-                        Status = d.Status
-                    });
+                    .CreateAvroOrders();
+
                     foreach(var item in records)
                     {
+                        if(delayForEachProduce.HasValue)
+                            await Task.Delay(delayForEachProduce.Value);
                         producer
-                            .Produce("sample-avro-batch-compression-2", new Message<Null, OrderAvroModel>{Value = item});
+                            .Produce(topic, new Message<Null, OrderAvroModel>{Value = item});
                     }
 
-                    producer.Flush(TimeSpan.FromSeconds(30));
+                    producer.Flush();
                 }
             }
+
+        }
+
+        private static int? GetCompressionLevel(CompressionType? compressionType)
+        {
+            if(compressionType == null)
+                return null;
+            
+            if(compressionType == CompressionType.Gzip)
+                return 9;
+            
+            if(compressionType == CompressionType.Snappy)
+                return 0;
+
+            return null;
         }
     }
 }

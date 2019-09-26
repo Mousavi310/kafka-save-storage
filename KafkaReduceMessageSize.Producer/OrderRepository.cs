@@ -20,9 +20,17 @@ namespace KafkaReduceMessageSize.Producer
                 .ToList();  
         }
 
-        public static List<OrderJsonModel> CreateAvroOrders(int count = 100)
+        public static List<OrderAvroModel> CreateAvroOrders(int count = 100)
         {
             return CreateJsonOrders(count)
+                .Select(d => new OrderAvroModel
+                    {
+                        CreationTime = d.CreationTime,
+                        CustomerId  = d.CustomerId,
+                        Id = d.Id,
+                        ProductId = d.ProductId,
+                        Status = d.Status
+                    })
                 .ToList();  
         }
 
