@@ -17,12 +17,12 @@ namespace KafkaReduceMessageSize.Producer
             var schemaRegistryUrl = "http://localhost:8081/";
 
 
-            await Produce_Json(broker, "maintopic40", linger:100);
-            //await Produce_Json(broker, "maintopic30", linger:1, delayForEachProduce:100);
+            //await Produce_Json(broker, "tp20", linger:100);
+            await Produce_Json(broker, "tp31", linger:0, delayForEachProduce:100);
             //await Produce_Json(broker, "maintopic20", linger:100, compressionType: CompressionType.Gzip);
             //await Produce_Json(broker, "maintopic15", linger:100, compressionType: CompressionType.Snappy);
             
-            await Produce_Avro(broker, schemaRegistryUrl, "maintopic41", linger:100);
+            //await Produce_Avro(broker, schemaRegistryUrl, "maintopic41", linger:100);
             //await Produce_Avro(broker, schemaRegistryUrl, "maintopic31", linger:1, delayForEachProduce:100);
             //await Produce_Avro(broker, schemaRegistryUrl, "maintopic21", linger:100, compressionType: CompressionType.Gzip);
             //await Produce_Avro(broker, schemaRegistryUrl, "maintopic16", linger:100, compressionType: CompressionType.Snappy);
@@ -37,6 +37,7 @@ namespace KafkaReduceMessageSize.Producer
             int? delayForEachProduce = null, 
             CompressionType? compressionType = null)
         {
+            bool firstTime = true;
             using(var producer = new ProducerBuilder<Null, string>(
                 new ProducerConfig
                 {
@@ -52,10 +53,18 @@ namespace KafkaReduceMessageSize.Producer
                     .Select(d => JsonConvert.SerializeObject(d));
                 foreach(var item in records)
                 {
-                    if(delayForEachProduce.HasValue)
-                        await Task.Delay(delayForEachProduce.Value);
                     producer
                         .Produce(topic, new Message<Null, string>{Value = item});
+
+                    if(delayForEachProduce.HasValue)
+                    {
+                        if(firstTime)
+                        {
+                            firstTime = false;
+                            await Task.Delay(delayForEachProduce.Value * 100);             
+                        }
+                        await Task.Delay(delayForEachProduce.Value);                            
+                    }
                 }
 
                 producer.Flush();
@@ -74,6 +83,7 @@ namespace KafkaReduceMessageSize.Producer
                 new SchemaRegistryConfig {SchemaRegistryUrl = schemaRegistryUrl}
             ))
             {
+                bool firstTime = true;
                 var config = new ProducerConfig{
                         BootstrapServers = broker,
                         CompressionType = compressionType,
@@ -89,10 +99,19 @@ namespace KafkaReduceMessageSize.Producer
 
                     foreach(var item in records)
                     {
-                        if(delayForEachProduce.HasValue)
-                            await Task.Delay(delayForEachProduce.Value);
                         producer
                             .Produce(topic, new Message<Null, OrderAvroModel>{Value = item});
+                        
+                        if(delayForEachProduce.HasValue)
+                        {
+                            if(firstTime)
+                            {
+                                firstTime = false;
+                                await Task.Delay(delayForEachProduce.Value * 100);             
+                            }
+                            await Task.Delay(delayForEachProduce.Value);                            
+                        }
+                        
                     }
 
                     producer.Flush();
