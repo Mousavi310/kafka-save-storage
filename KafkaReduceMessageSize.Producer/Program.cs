@@ -25,9 +25,7 @@ namespace KafkaReduceMessageSize.Producer
             
             // await Produce_Avro(broker, schemaRegistryUrl, "avro-lingering", linger:100);
             // await Produce_Avro(broker, schemaRegistryUrl, "avro-gzip", linger:100, compressionType: CompressionType.Gzip);
-            // await Produce_Avro(broker, schemaRegistryUrl, "avro-snappy", linger:100, compressionType: CompressionType.Snappy);
-            
-            await Produce_Avro(broker, schemaRegistryUrl, "avro-lingering2", linger:100);
+            // await Produce_Avro(broker, schemaRegistryUrl, "avro-snappy", linger:100, compressionType: CompressionType.Snappy);   
             
             Console.WriteLine("Hello World!");
         }
