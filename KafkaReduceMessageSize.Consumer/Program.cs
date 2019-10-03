@@ -17,15 +17,15 @@ namespace KafkaReduceMessageSize.Consumer
             var broker = "localhost:9092";
             var schemaRegistryUrl = "http://localhost:8081/";
 
-            //Consume_Json(broker, "json-simple");
-            //Consume_Json(broker, "json-lingering");
+            Consume_Json(broker, "json-simple");
+            Consume_Json(broker, "json-lingering");
             
-            //Consume_Json(broker, "json-gzip");
-            //Consume_Json(broker, "json-snappy");
+            Consume_Json(broker, "json-gzip");
+            Consume_Json(broker, "json-snappy");
             
             Consume_Avro(broker, schemaRegistryUrl, "avro-lingering");
-            //Consume_Avro(broker, schemaRegistryUrl, "avro-gzip");
-            //Consume_Avro(broker, schemaRegistryUrl, "avro-snappy");
+            Consume_Avro(broker, schemaRegistryUrl, "avro-gzip");
+            Consume_Avro(broker, schemaRegistryUrl, "avro-snappy");
                         
             Console.WriteLine("Hello World!");
         }
