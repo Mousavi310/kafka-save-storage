@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaReduceMessageSize.Producer", "KafkaReduceMessageSize.Producer\KafkaReduceMessageSize.Producer.csproj", "{6466BF9F-0E61-43A5-9B9E-C568D90242EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaReduceMessageSize.Consumer", "KafkaReduceMessageSize.Consumer\KafkaReduceMessageSize.Consumer.csproj", "{2D405275-96C7-4A7B-943A-6F47E7C9A0BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,17 @@ Global
 		{6466BF9F-0E61-43A5-9B9E-C568D90242EF}.Release|x64.Build.0 = Release|Any CPU
 		{6466BF9F-0E61-43A5-9B9E-C568D90242EF}.Release|x86.ActiveCfg = Release|Any CPU
 		{6466BF9F-0E61-43A5-9B9E-C568D90242EF}.Release|x86.Build.0 = Release|Any CPU
+		{2D405275-96C7-4A7B-943A-6F47E7C9A0BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D405275-96C7-4A7B-943A-6F47E7C9A0BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D405275-96C7-4A7B-943A-6F47E7C9A0BE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2D405275-96C7-4A7B-943A-6F47E7C9A0BE}.Debug|x64.Build.0 = Debug|Any CPU
+		{2D405275-96C7-4A7B-943A-6F47E7C9A0BE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2D405275-96C7-4A7B-943A-6F47E7C9A0BE}.Debug|x86.Build.0 = Debug|Any CPU
+		{2D405275-96C7-4A7B-943A-6F47E7C9A0BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D405275-96C7-4A7B-943A-6F47E7C9A0BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D405275-96C7-4A7B-943A-6F47E7C9A0BE}.Release|x64.ActiveCfg = Release|Any CPU
+		{2D405275-96C7-4A7B-943A-6F47E7C9A0BE}.Release|x64.Build.0 = Release|Any CPU
+		{2D405275-96C7-4A7B-943A-6F47E7C9A0BE}.Release|x86.ActiveCfg = Release|Any CPU
+		{2D405275-96C7-4A7B-943A-6F47E7C9A0BE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
