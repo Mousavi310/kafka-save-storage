@@ -5,8 +5,11 @@
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Confluent.Kafka" Version="1.2.0"/>
-    <PackageReference Include="Confluent.SchemaRegistry" Version="1.2.0"/>
-    <PackageReference Include="Confluent.SchemaRegistry.Serdes" Version="1.2.0"/>
+    <PackageReference Include="Confluent.Kafka" Version="1.2.0" />
+    <PackageReference Include="Confluent.SchemaRegistry" Version="1.2.0" />
+    <PackageReference Include="Confluent.SchemaRegistry.Serdes" Version="1.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KafkaReduceMessageSize.Core\KafkaReduceMessageSize.Core.csproj" />
   </ItemGroup>
 </Project>

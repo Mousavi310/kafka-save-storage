@@ -5,6 +5,7 @@ using Confluent.Kafka;
 using Confluent.Kafka.SyncOverAsync;
 using Confluent.SchemaRegistry;
 using Confluent.SchemaRegistry.Serdes;
+using KafkaReduceMessageSize.Core;
 using KafkaReduceMessageSize.Producer;
 
 namespace KafkaReduceMessageSize.Consumer
@@ -22,7 +23,7 @@ namespace KafkaReduceMessageSize.Consumer
             //Consume_Json(broker, "json-gzip");
             //Consume_Json(broker, "json-snappy");
             
-            Consume_Avro(broker, schemaRegistryUrl, "avro-lingering");
+            Consume_Avro(broker, schemaRegistryUrl, "avro-lingering2");
             //Consume_Avro(broker, schemaRegistryUrl, "avro-gzip");
             //Consume_Avro(broker, schemaRegistryUrl, "avro-snappy");
                         

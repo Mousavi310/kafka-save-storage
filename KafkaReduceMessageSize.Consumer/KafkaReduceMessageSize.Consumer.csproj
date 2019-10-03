@@ -12,5 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KafkaReduceMessageSize.Producer\KafkaReduceMessageSize.Producer.csproj" />
+    <ProjectReference Include="..\KafkaReduceMessageSize.Core\KafkaReduceMessageSize.Core.csproj" />
   </ItemGroup>
 </Project>

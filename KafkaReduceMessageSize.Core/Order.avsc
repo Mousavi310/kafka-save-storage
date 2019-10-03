@@ -1,5 +1,5 @@
 {
-    "namespace": "App",
+    "namespace": "KafkaReduceMessageSize.Core",
     "type": "record",
     "doc": "A simple order record that will be used in our e-commerce application",
     "name": "OrderAvroModel",

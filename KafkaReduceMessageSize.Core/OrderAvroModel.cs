@@ -5,7 +5,7 @@
 //    is regenerated
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace KafkaReduceMessageSize.Producer
+namespace KafkaReduceMessageSize.Core
 {
 	using System;
 	using System.Collections.Generic;
@@ -15,9 +15,7 @@ namespace KafkaReduceMessageSize.Producer
 	
 	public partial class OrderAvroModel : ISpecificRecord
 	{
-		public static Schema _SCHEMA = Schema.Parse("{\"type\":\"record\",\"name\":\"OrderAvroModel\",\"namespace\":\"App\",\"fields\":[{\"name\":\"Id\"" +
-				",\"type\":\"string\"},{\"name\":\"Status\",\"type\":\"int\"},{\"name\":\"CreationTime\",\"type\":\"" +
-				"long\"},{\"name\":\"ProductId\",\"type\":\"int\"},{\"name\":\"CustomerId\",\"type\":\"int\"}]}");
+		public static Schema _SCHEMA = Schema.Parse(@"{""type"":""record"",""name"":""OrderAvroModel"",""namespace"":""KafkaReduceMessageSize.Core"",""fields"":[{""name"":""Id"",""type"":""string""},{""name"":""Status"",""type"":""int""},{""name"":""CreationTime"",""type"":""long""},{""name"":""ProductId"",""type"":""int""},{""name"":""CustomerId"",""type"":""int""}]}");
 		private string _Id;
 		private int _Status;
 		private long _CreationTime;

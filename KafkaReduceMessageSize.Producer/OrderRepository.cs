@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using KafkaReduceMessageSize.Core;
 
 namespace KafkaReduceMessageSize.Producer
 {
