@@ -22,10 +22,12 @@ namespace KafkaReduceMessageSize.Consumer
             
             Consume_Json(broker, "json-gzip");
             Consume_Json(broker, "json-snappy");
+            Consume_Json(broker, "json-zstd6");
             
             Consume_Avro(broker, schemaRegistryUrl, "avro-lingering");
             Consume_Avro(broker, schemaRegistryUrl, "avro-gzip");
             Consume_Avro(broker, schemaRegistryUrl, "avro-snappy");
+            Consume_Avro(broker, schemaRegistryUrl, "avro-zstd6");
                         
             Console.WriteLine("Hello World!");
         }

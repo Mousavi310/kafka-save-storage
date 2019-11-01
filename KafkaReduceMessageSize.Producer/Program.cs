@@ -22,10 +22,12 @@ namespace KafkaReduceMessageSize.Producer
             
             await Produce_Json(broker, "json-gzip", linger:100, compressionType: CompressionType.Gzip);
             await Produce_Json(broker, "json-snappy", linger:100, compressionType: CompressionType.Snappy);
+            await Produce_Json(broker, "json-zstd6", linger:300, compressionType: CompressionType.Zstd);
             
             await Produce_Avro(broker, schemaRegistryUrl, "avro-lingering", linger:100);
             await Produce_Avro(broker, schemaRegistryUrl, "avro-gzip", linger:100, compressionType: CompressionType.Gzip);
             await Produce_Avro(broker, schemaRegistryUrl, "avro-snappy", linger:100, compressionType: CompressionType.Snappy);   
+            await Produce_Avro(broker, schemaRegistryUrl, "avro-zstd6", linger:300, compressionType: CompressionType.Zstd);   
             
             Console.WriteLine("Hello World!");
         }
@@ -129,6 +131,9 @@ namespace KafkaReduceMessageSize.Producer
             
             if(compressionType == CompressionType.Snappy)
                 return 0;
+            
+            if(compressionType == CompressionType.Zstd)
+                return 5;
 
             return null;
         }
